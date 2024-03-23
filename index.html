@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>IEEE-754 Floating Point Converter</title>
+    <link rel="stylesheet" href="/theme/css/base.css" />
+</head>
+
+<body>
+<!-- ################ Navigation bar at top ################ -->
+<div id="topbar">
+    <header id="banner">
+        <a href="https://www.h-schmidt.net/">www.h-schmidt.net</a>: <a href="/" title="Home">Home</a> | <a href="/articles.html" title="Articles">Articles</a> | <a href="/tools.html">Tools</a> | <a href="/archive.html">Archive</a>
+    </header>
+</div>
+<div id="nontopbar" style="position: relative; top: 2em;">
+    <!-- ################ List of contents ################ -->
+    <div id="sidebar">
+        <div class="contentsheader">Quick links</div>
+        <nav>
+            <ul>
+                <li><a href="/FloatConverter/IEEE754.html">IEEE754</a></li>
+                <li><a href="/FileHasher/">FileHasher</a></li>
+                <li><a href="/map/">World sat image</a></li>
+            </ul>
+            <div class="contentsheader">Latest article</div>
+            <ul>
+                <li>
+                    <a href="/articles/zone-based-firewalling-on-mikrotik-routers.html">Zone-based firewalling on Mikrotik routers</a>
+                </li>
+            </ul>
+
+            <div class="contactquicklink">
+                <a href="/contact/">Contact</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ################ page content ################ -->
+    <div id="contentcontainer">
+        <h1>Tools & Thoughts </h1>
+
+        <section id="content" class="body">
+            <h1 class="entry-title">IEEE-754 Floating Point Converter</h1>
+            Translations:
+            <a href="/FloatConverter/IEEE754de.html" hreflang="de">de</a>
+
+            <p>This page allows you to convert between the decimal representation of a number (like "1.02") and the binary format used by all modern CPUs (a.k.a. "IEEE 754 floating point").</p>
+            <div align="center" style="background-color: lightgrey;">
+                <div align="center" id="jsconverter" style="display:none">
+                    <div style="font-size: 120%; font-weight: bold; padding: 0.5em;">
+                        IEEE 754 Converter, 2024-02
+                    </div>
+                    <div id="convnumeric">
+                        <table id="numbertable" style="border-collapse: collapse;">
+                            <tr>
+                                <td style="text-align: left;   padding: 0em 1em;">
+                                </td>
+                                <td style="text-align: center; padding: 0.5em 1em; font-weight: bold; background-color: #d2d2e7;">
+                                    Sign
+                                </td>
+                                <td style="text-align: center; padding: 0.5em 1em; font-weight: bold; background-color: #c0ddc2;">
+                                    Exponent
+                                </td>
+                                <td style="text-align: center; padding: 0.5em 1em; font-weight: bold; background-color: #ddd0c4;">
+                                    Mantissa
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;   padding: 0em 1em; font-weight: bold;">
+                                    Value:
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; background-color: #d2d2e7;">
+                                    <span id="sign_value">0</span>
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; background-color: #c0ddc2;">
+                                    2<span id="exponent_value" style="vertical-align: super;">0</span>
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; background-color: #ddd0c4;">
+                                    <span id="mantissa_value">0</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;   padding: 0em 1em; font-weight: bold;">
+                                    Encoded as:
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; background-color: #d2d2e7;">
+                                    <span id="actual_sign">0</span>
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; background-color: #c0ddc2;">
+                                    <span id="actual_exponent">0</span>
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; background-color: #ddd0c4;">
+                                    <span id="actual_mantissa">0</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;   padding: 0em 1em; margin-right: 0.5em; font-weight: bold;">
+                                    Binary:
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; margin-right: 0.5em; background-color: #d2d2e7;">
+                                    <form >
+                                        <input type="checkbox" id="cbsign">
+                                    </form>
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; margin-right: 0.5em; background-color: #c0ddc2;">
+                                    <form >
+                                        <div style="display: flex; flex-wrap: wrap;">
+                                            <div style="display: flex; margin-right: 0.5em;">
+                                                <input type="checkbox" id="cbexp0">
+                                                <input type="checkbox" id="cbexp1">
+                                                <input type="checkbox" id="cbexp2">
+                                                <input type="checkbox" id="cbexp3">
+                                            </div>
+                                            <div style="display: flex; margin-right: 0.5em;">
+                                                <input type="checkbox" id="cbexp4">
+                                                <input type="checkbox" id="cbexp5">
+                                                <input type="checkbox" id="cbexp6">
+                                                <input type="checkbox" id="cbexp7">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                                <td style="text-align: center; padding: 0em 1em; margin-right: 0.5em; background-color: #ddd0c4;">
+                                    <form >
+                                        <div style="display: flex; flex-wrap: wrap;">
+                                            <div style="display: flex; margin-right: 0.5em;">
+                                                <input type="checkbox" id="cbmant0">
+                                                <input type="checkbox" id="cbmant1">
+                                                <input type="checkbox" id="cbmant2">
+                                                <input type="checkbox" id="cbmant3">
+                                            </div>
+                                            <div style="display: flex; margin-right: 0.5em;">
+                                                <input type="checkbox" id="cbmant4">
+                                                <input type="checkbox" id="cbmant5">
+                                                <input type="checkbox" id="cbmant6">
+                                                <input type="checkbox" id="cbmant7">
+                                            </div>
+                                            <div style="display: flex; margin-right: 0.5em;">
+                                                <input type="checkbox" id="cbmant8">
+                                                <input type="checkbox" id="cbmant9">
+                                                <input type="checkbox" id="cbmant10">
+                                                <input type="checkbox" id="cbmant11">
+                                            </div>
+                                            <div style="display: flex; margin-right: 0.5em;">
+                                                <input type="checkbox" id="cbmant12">
+                                                <input type="checkbox" id="cbmant13">
+                                                <input type="checkbox" id="cbmant14">
+                                                <input type="checkbox" id="cbmant15">
+                                            </div>
+                                            <div style="display: flex; margin-right: 0.5em;">
+                                                <input type="checkbox" id="cbmant16">
+                                                <input type="checkbox" id="cbmant17">
+                                                <input type="checkbox" id="cbmant18">
+                                                <input type="checkbox" id="cbmant19">
+                                            </div>
+                                            <div style="display: flex; margin-right: 0.5em;">
+                                                <input type="checkbox" id="cbmant20">
+                                                <input type="checkbox" id="cbmant21">
+                                                <input type="checkbox" id="cbmant22">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="convtext">
+                        <table>
+                            <tr>
+                                <td id="dec_repr_text">Decimal Representation</td>
+                                <td><form id="decimalform"><input type="text" size="60" id="decimal"></form></td>
+                                <td rowspan="4">
+                                    <div><button type="button" id="btincrement" style="width: 3em; padding: 0.5em; margin: 0.5em; border-style: solid; border-color: black; border-width: 2px; background-color: #90A090;" >1</button></div>
+                                    <div><button type="button" id="btdecrement" style="width: 3em; padding: 0.5em; margin: 0.5em; border-style: solid; border-color: black; border-width: 2px; background-color: #9090A0;" >-1</button></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Value actually stored in float:</td>
+                                <td><input type="text" size="60" id="highprecision_decimal" readonly></td>
+                            </tr>
+                            <tr>
+                                <td>Error due to conversion:</td>
+                                <td><input type="text" size="60" id="representation_error" readonly></td>
+                            </tr>
+                            <tr>
+                                <td>Binary Representation</td>
+                                <td><form><input type="text" size="60" id="binary"></form></td>
+                            </tr>
+                            <tr>
+                                <td>Hexadecimal Representation</td>
+                                <td><form><input type="text" size="60" id="hexadecimal"></form></td>
+                            </tr>
+                        </table>
+                        <div id="convstatus" style="margin: 0.5em;">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <script type="module" src="float.js"></script>
+                </div>
+
+                <!-- Make sure converter is only shown when Javascript is enabled. -->
+                <script type="text/javascript">
+                    <!--
+                    window.document.getElementById("jsconverter").style.display = "inline";
+                    // -->
+                </script>
+                <noscript>
+                    (this page requires Javascript)
+                </noscript>
+            </div>
+
+            <p><strong>Update</strong></p>
+            <p><em>As of 2024, the converter has been updated to run fully client side. For this, a browser supporting "Web-Assembler" is required. This change may lead to somewhat different behaviour when displaying numbers, but should provide quicker reaction. In case you have any problems, please <a href="/contact/">contact</a> me.</em></p>
+            <hr>
+            <p>This webpage is a tool to understand IEEE-754 floating point numbers. This is the format in which almost all CPUs represent non-integer numbers. As this format is using base-2,
+                there can be surprising differences in what numbers can be represented easily in decimal and which numbers can be represented in IEEE-754. As an example, try "0.1". The conversion is limited to 32-bit single precision numbers, while the
+                IEEE-754-Standard contains formats with increased precision.</p>
+            <ul>
+                <li>
+                    <p><strong>Usage:</strong></p>
+                    <p>You can either convert a number by choosing its binary representation in the button-bar, the other fields will be updated immediately. Or you can enter a binary number, a hexnumber or the decimal representation into the corresponding textfield and press return to update
+                        the other fields. To make it easier to spot eventual rounding errors, the selected float number is displayed after conversion to double precision.</p>
+                </li>
+                <li>
+                    <p><strong>Special Values:</strong></p>
+                    <p>You can enter the words "Infinity", "-Infinity" or "NaN" to get the corresponding special values for IEEE-754. Please note there are two kinds of zero: +0 and -0.</p>
+                </li>
+                <li>
+                    <p><strong>Conversion:</strong></p>
+                    <p>The value of a IEEE-754 number is computed as:</p>
+                    <p><span style="font-family:monospace;">sign <strong> 2<sup>exponent</sup> </strong> mantissa</span></p>
+                    <p>The sign is stored in bit 32. The exponent can be computed from bits 24-31 by subtracting 127. The mantissa (also known as significand or fraction) is stored in bits 1-23.
+                        An invisible leading bit (i.e. it is not actually stored) with value 1.0 is placed in front, then bit 23 has a value of 1/2, bit 22 has value 1/4 etc. As a result, the mantissa
+                        has a value between 1.0 and 2. If the exponent reaches -127 (binary 00000000), the leading 1 is no longer used to enable gradual underflow.</p>
+                </li>
+                <li>
+                    <p><strong>Underflow:</strong></p>
+                    <p>If the exponent has minimum value (all zero), special rules for denormalized values are followed. The exponent value is set to 2<sup>-126</sup> and the "invisible" leading bit for the mantissa is no longer used.</p>
+                    <p>The range of the mantissa is now [0:1).</p>
+                    <p><strong>Note:</strong> The converter used to show denormalized exponents as 2<sup>-127</sup> and a denormalized mantissa range [0:2). This is effectively identical to the values above, with a factor of two shifted between exponent and mantissa.
+                        However this confused people and was therefore changed (2015-09-26).</p>
+                </li>
+                <li>
+                    <p><strong>Rounding errors:</strong></p>
+                    <p>Not every decimal number can be expressed exactly as a floating point number. This can be seen when entering "0.1" and examining its binary representation which is either slightly smaller or larger, depending on the last bit.</p>
+                </li>
+                <li>
+                    <p><strong>Other representations:</strong></p>
+                    <p>The hex representation is just the integer value of the bitstring printed as hex. Don't confuse this with true hexadecimal floating point values in the style of 0xab.12ef.</p>
+                </li>
+                <li>
+                    <p><strong>FAQ (Frequently Asked Questions):</strong></p>
+                    <ul>
+                        <li>
+                            <p><strong>Can you send me the source code? I need to convert format x to format y.</strong>:</p>
+                            <p>This source code for this converter doesn't contain any low level conversion routines. The conversion between a floating point number (i.e. a 32 bit area in memory) and the bit representation isn't actually a conversion, but just a reinterpretation of the same data in memory. This can be easily done with typecasts in C/C++ or with some bitfiddling via <a href="http://java.sun.com/javase/6/docs/api/java/lang/Float.html#floatToIntBits(float)">java.lang.Float.floatToIntBits</a> in Java. The conversion between a string containing the textual form of a floating point number (e.g. "3.14159", a string of 7 characters) and a 32 bit floating point number is also performed by library routines. If you need to write such a routine yourself, you should have a look at the sourecode of a standard C library (e.g. GNU libc, uclibc or the FreeBSD C library - please have a look at the licenses before copying the code) - be aware, these conversions can be complicated.</p>
+                        </li>
+                        <li>
+                            <p><strong>Can you add support for 64-bit float/16-bit float/non-IEEE 754 float?.</strong>:</p>
+                            <p>The primary purpose of this site is to support people learning about these formats, and for understanding the difference between 32-bit and 64-bit is minor. On the other hand, 64-bit would be more cumbersome to work with when displaying, so the tradeoff isn't really worth it at the moment.</p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>Note: If you find any problems, please report them <a href="/contact/">here</a>.</strong></p>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>
